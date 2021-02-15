@@ -1,0 +1,20 @@
+---
+title: "p8131_hw3_ps3194"
+author: "Pangsibo Shen"
+date: "2/15/2021"
+output: html_document
+---
+```{r}
+library(tidyverse)
+```
+### Question 1 esophageal cancer and daily alcohol consumption
+
+```{r create dataset}
+age = c(25,35,45,55,65,75,25,35,45,55,65,75)
+alc_level = c(0,0,0,0,0,0,1,1,1,1,1,1) #0 stands for daily alcohol 0-79g and 1 stands for daily alcohol consumption 80+g
+case = c(0,5,21,34,36,8,1,4,25,42,19,5)
+control = c(106,164,138,139,88,31,9,26,29,27,18,0)
+
+df1 = tibble(age,alc_level,case,control)
+```
+
