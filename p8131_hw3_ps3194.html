@@ -400,14 +400,96 @@ summary {
 <pre><code>## -- Conflicts ------------------------------------------ tidyverse_conflicts() --
 ## x dplyr::filter() masks stats::filter()
 ## x dplyr::lag()    masks stats::lag()</code></pre>
-<div id="question-1-esophageal-cancer-and-daily-alcohol-consumption" class="section level3">
-<h3>Question 1 esophageal cancer and daily alcohol consumption</h3>
+<div id="question-1-esophageal-cancer-and-daily-alcohol-consumptionages" class="section level3">
+<h3>Question 1 esophageal cancer and daily alcohol consumption/ages</h3>
 <pre class="r"><code>age = c(25,35,45,55,65,75,25,35,45,55,65,75)
 alc_level = c(0,0,0,0,0,0,1,1,1,1,1,1) #0 stands for daily alcohol 0-79g and 1 stands for daily alcohol consumption 80+g
 case = c(0,5,21,34,36,8,1,4,25,42,19,5)
-control = c(106,164,138,139,88,31,9,26,29,27,18,0)
-
-df1 = tibble(age,alc_level,case,control)</code></pre>
+control = c(106,164,138,139,88,31,9,26,29,27,18,0)</code></pre>
+<pre class="r"><code># create a dataframe for the question
+df1 = tibble(age,alc_level,case,control)
+# fit a prospective model using logit link
+logit_fit_1 = glm(cbind(case,control)~age+alc_level, family = binomial(link = &quot;logit&quot;), data = df1)</code></pre>
+<pre class="r"><code>summary(logit_fit_1)</code></pre>
+<pre><code>## 
+## Call:
+## glm(formula = cbind(case, control) ~ age + alc_level, family = binomial(link = &quot;logit&quot;), 
+##     data = df1)
+## 
+## Deviance Residuals: 
+##      Min        1Q    Median        3Q       Max  
+## -2.59974  -1.72957   0.06822   1.19015   1.50808  
+## 
+## Coefficients:
+##              Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept) -5.023449   0.418224 -12.011   &lt;2e-16 ***
+## age          0.061579   0.007291   8.446   &lt;2e-16 ***
+## alc_level    1.780000   0.187086   9.514   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 211.608  on 11  degrees of freedom
+## Residual deviance:  31.932  on  9  degrees of freedom
+## AIC: 78.259
+## 
+## Number of Fisher Scoring iterations: 4</code></pre>
+<pre class="r"><code>#anti log for interpretation of beta
+exp(logit_fit_1$coefficients)</code></pre>
+<pre><code>## (Intercept)         age   alc_level 
+## 0.006581788 1.063514159 5.929853538</code></pre>
+<p>The interpretation of <span class="math inline">\(\beta_o\)</span>:The relative odds of disease among non-exposure is 0.0066; the odds ratio of getting esophageal cancer between people whose daily alcohol consumption greater than 80g and people whose daily alcohol consumption less than 80g is 5.9299 while holding the age as constant.</p>
+</div>
+<div id="question-2-orobanche-seeds-study" class="section level3">
+<h3>Question 2 Orobanche seeds study</h3>
+<pre class="r"><code>df2 = tibble(
+  yi = c(10,23,23,26,17,8,10,8,23,0,5,53,55,32,46,10,3,22,15,32,3), #number of germinating
+  mi = c(39,62,81,51,39,16,30,28,45,4,6,74,72,51,79,13,12,41,30,51,7),#number of seeds
+  root_extract = c(c(rep(0,10)),c(rep(1,11))),
+  type = c(c(rep(0,5)),c(rep(1,5)),c(rep(0,6)),c(rep(1,5)))
+) %&gt;%
+  relocate(type,root_extract,yi,mi) %&gt;%
+  mutate(type = as.factor(type), # 0 stands for O. aegyptiaca 75 and 1 stands for O. aegyptiaca 73
+         root_extract = as.factor(root_extract), # 0 stands for Bean root extraction and 1 stands for cucumber root extraction 
+         yi_0 = mi - yi) # number of seeds not germinating</code></pre>
+<div id="a" class="section level5">
+<h5>a)</h5>
+<pre class="r"><code># fit a prospective model using logit link
+logit_fit_2 = glm(cbind(yi,yi_0)~type+root_extract, family = binomial(link = &quot;logit&quot;), data = df2)
+summary(logit_fit_2)</code></pre>
+<pre><code>## 
+## Call:
+## glm(formula = cbind(yi, yi_0) ~ type + root_extract, family = binomial(link = &quot;logit&quot;), 
+##     data = df2)
+## 
+## Deviance Residuals: 
+##     Min       1Q   Median       3Q      Max  
+## -2.3919  -0.9949  -0.3744   0.9831   2.4766  
+## 
+## Coefficients:
+##               Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept)    -0.4300     0.1137  -3.781 0.000156 ***
+## type1          -0.2705     0.1547  -1.748 0.080435 .  
+## root_extract1   1.0647     0.1442   7.383 1.55e-13 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 98.719  on 20  degrees of freedom
+## Residual deviance: 39.686  on 18  degrees of freedom
+## AIC: 122.28
+## 
+## Number of Fisher Scoring iterations: 4</code></pre>
+<pre class="r"><code>#anti log for interpretation of beta
+exp(logit_fit_2$coefficients)</code></pre>
+<pre><code>##   (Intercept)         type1 root_extract1 
+##     0.6504882     0.7630352     2.9001133</code></pre>
+</div>
+<div id="b" class="section level5">
+<h5>b)</h5>
+</div>
 </div>
 
 
