@@ -30,7 +30,7 @@ exp(logit_fit_1$coefficients)
 ```
 The interpretation of $\beta_o$:The relative odds of disease among non-exposure is 0.0066; the odds ratio of getting esophageal cancer between people whose daily alcohol consumption greater than 80g and people whose daily alcohol consumption less than 80g is 5.9299 while holding the age as constant.
 
-### Question 2 Orobanche seeds study
+### Question 2 Orobanche Seeds Study
 ```{r}
 df2 = tibble(
   yi = c(10,23,23,26,17,8,10,8,23,0,5,53,55,32,46,10,3,22,15,32,3), #number of germinating
@@ -55,7 +55,27 @@ exp(logit_fit_2$coefficients)
 ```
 ##### b)
 
+```{r}
+#calculate G_0 and phi 
+G_0 = sum(residuals(logit_fit_2,type='pearson')^2) # pearson chisq 
+G_0
+phi = G_0/(21-3)
+phi
+```
+```{r}
+# test over-dispersion (half normal plot)
+res = residuals(logit_fit_2,type='pearson')
+plot(qnorm((21+1:21+0.5)/(2*21+1.125)),sort(abs(res)),xlab='Expected Half-Normal Order Stats',
+ylab='Ordered Abs Pearson Residuals', ylim=c(0,5),xlim=c(0,5))
+abline(a=0,b=1)
+abline(a=0,b=sqrt(phi),lty=2)
+```
+From the Half Normal Plot, there is  linear deviation from the reference line which indicates constant over-dispersion. The dispersion parameter $\hat\phi$ is approximated to be `r phi`
 
-
-
+```{r}
+# refit model with constant over-dispersion
+summary(logit_fit_2,dispersion=phi)
+```
+##### c)
+There might be correlation within the group of that root extract media 
 
