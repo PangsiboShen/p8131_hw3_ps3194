@@ -53,6 +53,8 @@ summary(logit_fit_2)
 #anti log for interpretation of beta
 exp(logit_fit_2$coefficients)
 ```
+For the intercept, we first apply anti log to get valid number for interpretations. The odds for O. aegyptiaca 75 grown on Bean root extract media is -0.43; the odds ratio for growing in Bean root extract media between O. aegyptiaca 75 and O. aegyptiaca 73 is -0.2705; the odds ratio for O. aegyptiaca 75 growing in between Bean root extract media and Cucumber root extract media is 1.0647. Types of seed seems to have weak effect on the germination rate for the seeds since its p-value is 0.080435 which is greater than 0.05 yet less than 0.1.      
+
 ##### b)
 
 ```{r}
@@ -76,6 +78,11 @@ From the Half Normal Plot, there is  linear deviation from the reference line wh
 # refit model with constant over-dispersion
 summary(logit_fit_2,dispersion=phi)
 ```
+
+After I updated my model with dispersion parameter, all the beta coefficients stay the same.
+
+
+
 ##### c)
 First, within each batch, the germination of each seeds might not be strict Bernoulli process. In other words, the germination of one seed might impact its neighboring seeds. Second, within each batch, the germination rate for each seed is likely to be different. 
 

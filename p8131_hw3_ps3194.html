@@ -486,6 +486,7 @@ summary(logit_fit_2)</code></pre>
 exp(logit_fit_2$coefficients)</code></pre>
 <pre><code>##   (Intercept)         type1 root_extract1 
 ##     0.6504882     0.7630352     2.9001133</code></pre>
+<p>For the intercept, we first apply anti log to get valid number for interpretations. The odds for O. aegyptiaca 75 grown on Bean root extract media is -0.43; the odds ratio for growing in Bean root extract media between O. aegyptiaca 75 and O. aegyptiaca 73 is -0.2705; the odds ratio for O. aegyptiaca 75 growing in between Bean root extract media and Cucumber root extract media is 1.0647. Types of seed seems to have weak effect on the germination rate for the seeds since its p-value is 0.080435 which is greater than 0.05 yet less than 0.1.</p>
 </div>
 <div id="b" class="section level5">
 <h5>b)</h5>
@@ -529,6 +530,7 @@ summary(logit_fit_2,dispersion=phi)</code></pre>
 ## AIC: 122.28
 ## 
 ## Number of Fisher Scoring iterations: 4</code></pre>
+<p>After I updated my model with dispersion parameter, all the beta coefficients stay the same.</p>
 </div>
 <div id="c" class="section level5">
 <h5>c)</h5>
