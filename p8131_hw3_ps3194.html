@@ -401,7 +401,7 @@ summary {
 ## x dplyr::filter() masks stats::filter()
 ## x dplyr::lag()    masks stats::lag()</code></pre>
 <div id="question-1-esophageal-cancer-and-daily-alcohol-consumptionages" class="section level3">
-<h3>Question 1 esophageal cancer and daily alcohol consumption/ages</h3>
+<h3>Question 1 Esophageal Cancer and Daily Alcohol Consumption/Ages</h3>
 <pre class="r"><code>age = c(25,35,45,55,65,75,25,35,45,55,65,75)
 alc_level = c(0,0,0,0,0,0,1,1,1,1,1,1) #0 stands for daily alcohol 0-79g and 1 stands for daily alcohol consumption 80+g
 case = c(0,5,21,34,36,8,1,4,25,42,19,5)
@@ -439,7 +439,7 @@ logit_fit_1 = glm(cbind(case,control)~age+alc_level, family = binomial(link = &q
 exp(logit_fit_1$coefficients)</code></pre>
 <pre><code>## (Intercept)         age   alc_level 
 ## 0.006581788 1.063514159 5.929853538</code></pre>
-<p>The interpretation of <span class="math inline">\(\beta_o\)</span>:The relative odds of disease among non-exposure is 0.0066; the odds ratio of getting esophageal cancer between people whose daily alcohol consumption greater than 80g and people whose daily alcohol consumption less than 80g is 5.9299 while holding the age as constant.</p>
+<p>For the interpretation of <span class="math inline">\(\beta&#39;s\)</span>, we need to first exponentiate all the coefficients and the relative odds of disease among non-exposure is 0.0066; the odds ratio of getting esophageal cancer between people whose daily alcohol consumption greater than 80g and people whose daily alcohol consumption less than 80g is 5.9299 while holding the age as constant;the odds ratio of getting esophageal cancer between one year older people with younger people is 1.063514159 while holding the daily alcohol intake status as constant.</p>
 </div>
 <div id="question-2-orobanche-seeds-study" class="section level3">
 <h3>Question 2 Orobanche Seeds Study</h3>
@@ -486,7 +486,7 @@ summary(logit_fit_2)</code></pre>
 exp(logit_fit_2$coefficients)</code></pre>
 <pre><code>##   (Intercept)         type1 root_extract1 
 ##     0.6504882     0.7630352     2.9001133</code></pre>
-<p>For the intercept, we first apply anti log to get valid number for interpretations. The odds for O. aegyptiaca 75 grown on Bean root extract media is -0.43; the odds ratio for growing in Bean root extract media between O. aegyptiaca 75 and O. aegyptiaca 73 is -0.2705; the odds ratio for O. aegyptiaca 75 growing in between Bean root extract media and Cucumber root extract media is 1.0647. Types of seed seems to have weak effect on the germination rate for the seeds since its p-value is 0.080435 which is greater than 0.05 yet less than 0.1.</p>
+<p>For the intercept, we first apply anti log to get valid number for interpretations. The odds for O. aegyptiaca 75 grown on Bean root extract media is 0.6504882; the odds ratio for growing in Bean root extract media between O. aegyptiaca 75 and O. aegyptiaca 73 is 0.7630352; the odds ratio for O. aegyptiaca 75 growing in between Bean root extract media and Cucumber root extract media is 2.9001133. Types of seed seems to have weak effect on the germination rate for the seeds since its p-value is 0.080435 which is greater than 0.05 yet less than 0.1.</p>
 </div>
 <div id="b" class="section level5">
 <h5>b)</h5>
@@ -530,7 +530,7 @@ summary(logit_fit_2,dispersion=phi)</code></pre>
 ## AIC: 122.28
 ## 
 ## Number of Fisher Scoring iterations: 4</code></pre>
-<p>After I updated my model with dispersion parameter, all the beta coefficients stay the same.</p>
+<p>After I updated my model with dispersion parameter, all the beta coefficients stay the same. Hence the interpretation for the coefficients stay the same as 2 a). However, the std.error for each coefficients became larger after I updated my model with dispersion parameter and the p-value for type iS 0.23 which is greater than 0.05. Hence we could conclude that the types of seed does not affect the seed germination rate.</p>
 </div>
 <div id="c" class="section level5">
 <h5>c)</h5>
