@@ -77,5 +77,5 @@ From the Half Normal Plot, there is  linear deviation from the reference line wh
 summary(logit_fit_2,dispersion=phi)
 ```
 ##### c)
-There might be correlation within the group of that root extract media 
+First, within each batch, the germination of each seeds might not be strict Bernoulli process. In other words, the germination of one seed might impact its neighboring seeds. Second, within each batch, the germination rate for each seed is likely to be different. 
 
